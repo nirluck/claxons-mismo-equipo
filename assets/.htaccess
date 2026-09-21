@@ -1,0 +1,6 @@
+# Imagenes, iconos y tipografia: cache de un año.
+# Si una imagen cambia, se sube con otro nombre; si no, los navegadores
+# y las redes seguiran mostrando la anterior.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

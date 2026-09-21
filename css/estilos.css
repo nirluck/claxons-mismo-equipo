@@ -1,0 +1,966 @@
+/* ============================================================== fuentes == */
+/* Guia de marca: Poppins para titulos, Axiforma para contenido digital.
+   Axiforma es comercial y no existe en Google Fonts, asi que sus archivos
+   van en assets/fuentes/ con licencia web. Mientras no esten, la pila de
+   respaldo cae en Poppins y la pagina no se rompe. La manuscrita de
+   campana se queda como esta. */
+
+@font-face {
+  font-family: "Axiforma";
+  src: url("../assets/fuentes/axiforma-regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+@font-face {
+  font-family: "Axiforma";
+  src: url("../assets/fuentes/axiforma-italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+
+@font-face {
+  font-family: "Axiforma";
+  src: url("../assets/fuentes/axiforma-medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+@font-face {
+  font-family: "Axiforma";
+  src: url("../assets/fuentes/axiforma-bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+@font-face {
+  font-family: "Axiforma";
+  src: url("../assets/fuentes/axiforma-black.woff2") format("woff2");
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+
+/* ==========================================================================
+   Mismo Equipo · Los Claxons × Viva Aerobús
+   Implementación directa del Figma "Claxon / landing-page" (28:54679).
+   Los valores son los del archivo: espaciados, tamaños, colores y radios.
+   El diseño está hecho a 1440 px; abajo de eso se adapta.
+   ========================================================================== */
+
+:root {
+  /* --- tokens del archivo --- */
+  --verde:        #1aa349;
+  --negro:        #020500;
+  --blanco:       #ffffff;
+
+  --neutral-50:   #f9f9fb;
+  --neutral-200:  #ccccd6;
+  --neutral-300:  #aeafbe;
+  --neutral-400:  #9091a5;
+  --neutral-800:  #282942;
+
+  --primary-400:  #a6b994;
+  --primary-800:  #455130;
+  --primary-950:  #20270c;
+
+  --secondary-50:  #fffefa;
+  --secondary-500: #dcd4b4;
+
+  --boleto:       #f0f7ee;
+  --cafe:         #5a4e37;
+  --pie-fondo:    #f0f7ee;   /* el mismo claro del boleto y del formulario */
+
+  /* estados inferidos, no venían dibujados */
+  --verde-claro:  #22c45a;
+  --verde-oscuro: #14833a;
+  --error:        #c4453a;
+  --error-suave:  #fbeceb;
+
+  /* --- escala de espaciado del archivo --- */
+  --e-1: 4px;  --e-2: 8px;   --e-3: 12px;  --e-4: 16px;
+  --e-8: 32px; --e-16: 64px; --e-24: 96px; --e-32: 128px;
+
+  --r-lg: 16px; --r-xl: 24px; --r-full: 9999px;
+
+  /* --- tipografías --- */
+  /* titulos */
+  --display: "Poppins", "Helvetica Neue", Arial, sans-serif;
+  /* contenido digital */
+  --texto:   "Axiforma", "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --mano:    "Crafty Girls", "Segoe Script", cursive;
+
+  --ancho:   1200px;
+  --sombra-boleto: drop-shadow(0 3.6px 1.8px rgba(0,0,0,.25));
+  --boleto-escala: 1;
+
+  /* La palabra "viva" ocupa el 64% de su lienzo y "LOS CLAXONS" el 90% del
+     suyo, asi que a misma altura de caja Viva se ve mas chico. Este factor
+     lo compensa; a 1.40 los dos logotipos medirian exactamente igual. */
+  --viva-escala: 1.15;
+  --claxons-escala: .9;
+}
+
+/* La pieza vive en oscuro por diseño. */
+
+/* Los bloques oscuros sin foto llevan la misma trama de puntos que el pie,
+   apenas visible, para que el negro no quede plano. */
+.d-trama { position: relative; isolation: isolate; }
+.d-trama::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  color: #6f8a74;
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1.1px);
+  background-size: 12px 12px; opacity: .07;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--negro);
+  color: var(--neutral-50);
+  font-family: var(--texto);
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+::selection { background: var(--verde); color: #fff; }
+:focus-visible { outline: 2px solid var(--verde-claro); outline-offset: 3px; border-radius: 4px; }
+
+.solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.saltar {
+  position: absolute; left: 16px; top: -72px; z-index: 200;
+  background: var(--verde); color: #fff; padding: 12px 24px;
+  border-radius: var(--r-xl); font-family: var(--display); font-weight: 700;
+  font-size: 16px; text-decoration: none; transition: top .18s ease;
+}
+.saltar:focus { top: 16px; }
+
+/* --------------------------------------------------------------- texto -- */
+
+h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 900; }
+p { margin: 0; }
+
+.d-h1 { font-size: 80px; line-height: 82px; color: var(--blanco); }
+.d-h2 { font-size: 40px; line-height: 48px; }
+.d-h3 { font-size: 20px; line-height: 28px; font-weight: 700; }
+
+.d-mano {
+  font-family: var(--mano); font-weight: 400;
+  color: var(--verde); letter-spacing: -1.6px; line-height: 34px;
+  font-size: 32px;
+}
+
+.d-cuerpo { font-family: var(--texto); font-size: 16px; line-height: 24px; }
+
+/* --------------------------------------------------------------- botón -- */
+
+.d-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--e-2);
+  border: 0; border-radius: var(--r-xl);
+  font-family: var(--display); font-size: 16px; line-height: 16px; font-weight: 700;
+  text-decoration: none; cursor: pointer;
+  padding: var(--e-3) var(--e-8);
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease,
+              transform .16s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease;
+}
+.d-btn img, .d-btn svg { width: 16px; height: 16px; transition: transform .24s cubic-bezier(.2,.7,.3,1); }
+.d-btn:hover img, .d-btn:hover svg { transform: translateX(4px); }
+
+.d-btn.verde { background: var(--verde); color: var(--neutral-50); }
+.d-btn.verde:hover { background: var(--verde-claro); transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(26,163,73,.85); }
+.d-btn.verde:active { background: var(--verde-oscuro); transform: translateY(0); }
+
+.d-btn.linea {
+  background: rgba(249,249,251,0); border: 1px solid var(--neutral-50); color: var(--neutral-50);
+  font-weight: 500; padding: var(--e-3) var(--e-4);
+}
+.d-btn.linea:hover { background: rgba(249,249,251,.12); transform: translateY(-2px); }
+.d-btn.linea:active { transform: translateY(0); }
+
+.d-btn[disabled], .d-btn[aria-disabled="true"] {
+  opacity: .45; pointer-events: none;
+}
+
+/* ------------------------------------------------------------ cabecera -- */
+
+.d-cabecera {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  background: rgba(2,5,0,.86); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(249,249,251,.1);
+  transition: transform .4s cubic-bezier(.2,.7,.3,1), opacity .24s ease;
+}
+.d-cabecera.oculta { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+.d-cabecera .fila {
+  max-width: 1440px; margin: 0 auto; padding: 0 var(--e-8);
+  height: 76px; display: flex; align-items: center; gap: var(--e-4);
+}
+/* Guia de marca de Viva: cuando acompana a otra marca va del lado
+   derecho, a escala balanceada y separada por un filete vertical. */
+/* Los logotipos nuevos traen su tinta centrada en el lienzo (48.7% y 50%),
+   asi que se alinean solos. Se miden por ALTO, no por ancho: asi el par
+   queda parejo aunque cambien de proporcion al reemplazarlos. */
+.d-cabecera .marcas { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.d-cabecera .marcas .claxons { height: calc(26px * var(--claxons-escala)); width: auto; }
+.d-cabecera .marcas .viva { height: calc(26px * var(--viva-escala)); width: auto; }
+.d-cabecera .marcas .barra { flex: none; width: 1.5px; height: 22px; background: rgba(249,249,251,.55); }
+.d-cabecera .d-btn { margin-left: auto; padding: 10px 22px; }
+
+/* ---------------------------------------------------------------- hero -- */
+
+.d-hero {
+  position: relative; isolation: isolate;
+  min-height: 854px;
+  display: flex; align-items: center;
+  padding: var(--e-32) 24px;
+}
+.d-hero-foto {
+  position: absolute; inset: 0; z-index: -2;
+  width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%;
+}
+.d-hero-velo {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.2) 0%, rgba(0,0,0,.2) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.56) 50%, var(--negro) 100%);
+}
+/* mismo contenedor que las demas secciones: 1200 px como tope, centrado */
+.d-hero-bloque {
+  flex: 1 0 0; min-width: 0; max-width: var(--ancho); margin: 0 auto;
+  display: flex; flex-direction: column;
+}
+
+.d-hero-cont { display: flex; flex-direction: column; gap: var(--e-4); padding: var(--r-lg) var(--e-4); }
+
+/* lockup: posiciones exactas del archivo */
+/* Era un lockup de posiciones absolutas calcadas del Figma. Los logotipos
+   nuevos tienen otra proporcion, asi que ahora es una fila que se alinea
+   por el centro y aguanta cualquier reemplazo. */
+/* el ala del logotipo entra con aire propio; el margen negativo lo alinea
+   opticamente con la primera letra del titular */
+.d-marcas-hero { display: flex; align-items: center; gap: 22px; margin-left: -40px; }
+.d-marcas-hero .claxons { height: calc(50px * var(--claxons-escala)); width: auto; }
+.d-marcas-hero .viva { height: calc(50px * var(--viva-escala)); width: auto; }
+.d-marcas-hero .barra { flex: none; width: 2px; height: 40px; background: rgba(249,249,251,.62); }
+
+.d-hero-titulo { display: flex; flex-direction: column; gap: 2px; padding: var(--e-4) 0 var(--e-4); }
+.d-hero-titulo .d-h1 { white-space: pre-wrap; }
+
+.d-hashtag-hero { height: 68px; display: flex; align-items: flex-end; padding-left: 280px; }
+.d-hashtag-hero span {
+  display: block;
+  font-family: var(--mano); font-weight: 400;
+  font-size: 74px; line-height: 74px; letter-spacing: -3.7px;
+  color: var(--verde);
+  text-shadow: -1.581px 1.581px 1.581px rgba(0,0,0,.4);
+  transform: rotate(-3.79deg); transform-origin: left center;
+  white-space: nowrap;
+}
+
+/* La linea estira y el avion no: antes era un solo svg con
+   preserveAspectRatio=none y en pantallas angostas se aplastaba. */
+.d-divisor {
+  /* mas largo que el parrafo del hero, que mide 680, para que sobresalga */
+  position: relative; width: 780px; max-width: 100%; height: 5px; margin: 0;
+  display: flex; align-items: center; gap: 18px;
+}
+.d-divisor .linea { flex: 1 1 auto; min-width: 0; height: 2px; background: #00ad44; }
+.d-divisor .avion { flex: none; width: 56px; height: 56px; max-width: none; }
+
+.d-hero-texto { width: 680px; max-width: 100%; padding: var(--e-4) 0; }
+.d-hero-texto p { color: var(--neutral-50); font-size: 20px; line-height: 30px; }
+
+.d-hero-acciones { display: flex; gap: var(--e-4); align-items: center; padding-top: 10px; }
+
+.d-hero-social { display: flex; flex-direction: column; gap: var(--e-4); padding: var(--r-lg) var(--e-4); }
+.d-social { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; list-style: none; margin: 0; padding: 0; }
+.d-social .rotulo { color: var(--neutral-50); }
+.d-social a {
+  display: block; width: 27px; height: 27px;
+  transition: transform .22s cubic-bezier(.2,.7,.3,1), filter .22s ease, opacity .22s ease;
+  opacity: .92;
+}
+.d-social a:hover { transform: translateY(-3px) scale(1.08); opacity: 1; filter: drop-shadow(0 4px 10px rgba(26,163,73,.55)); }
+.d-social img { width: 100%; height: 100%; }
+
+/* ------------------------------------------------- canción y premios --- */
+
+/* Los boletos van rotados y se salen de su caja a proposito. overflow-x:
+   clip recorta ese sobrante sin crear contenedor de scroll ni tocar el
+   eje vertical, asi el documento nunca se ensancha. */
+.d-seccion {
+  padding: var(--e-32) 24px; display: flex; align-items: center; justify-content: center;
+  overflow-x: clip;
+}
+.d-bloque { flex: 1 0 0; min-width: 0; max-width: var(--ancho); display: flex; }
+
+.d-cancion-txt {
+  width: 546px; flex: none;
+  display: flex; flex-direction: column; gap: var(--e-4);
+  padding: var(--r-lg) var(--e-4);
+}
+.d-cancion-txt .d-h2 { color: var(--neutral-50); }
+.d-cancion-txt .cuerpo { color: var(--neutral-50); font-size: 20px; line-height: 30px; }
+.d-cancion-txt .cuerpo u { text-decoration: underline; text-underline-position: from-font; }
+.d-cancion-txt .cuerpo .enlace {
+  color: var(--verde); text-decoration: underline; text-underline-offset: 3px;
+  transition: color .18s ease;
+}
+.d-cancion-txt .cuerpo .enlace:hover { color: var(--verde-claro); }
+
+.d-tags { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.d-tag {
+  font-family: var(--texto); font-style: italic; font-size: 17px; line-height: 28px;
+  color: var(--verde); background: none; border: 0; padding: 0;
+  border-radius: 48px; cursor: pointer; white-space: nowrap;
+  transition: color .18s ease, text-shadow .18s ease, transform .14s ease;
+}
+.d-tag:hover { color: var(--verde-claro); text-shadow: 0 0 14px rgba(34,196,90,.55); }
+.d-tag:active { transform: scale(.96); }
+.d-tag.copiada { color: var(--verde-claro); text-shadow: 0 0 16px rgba(34,196,90,.7); }
+
+/* boletos */
+.d-boletos {
+  flex: 1 0 0; min-width: 0; height: 385px;
+  display: flex; align-items: flex-end;
+  padding: var(--r-lg) var(--e-4);
+  perspective: 1600px;
+}
+.d-boleto-caja {
+  width: calc(418.474px * var(--boleto-escala));
+  height: calc(619.966px * var(--boleto-escala));
+  flex: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.d-boleto-caja.uno { margin-right: calc(-54px * var(--boleto-escala)); z-index: 2; }
+.d-boleto-caja.dos { z-index: 1; }
+
+.d-boleto {
+  position: relative; width: 324px; height: 572.4px;
+  filter: var(--sombra-boleto);
+  transition: transform .45s cubic-bezier(.2,.7,.3,1), filter .45s ease;
+}
+.d-boleto-caja.uno .d-boleto { transform: rotate(-10deg) scale(var(--boleto-escala)); }
+.d-boleto-caja.dos .d-boleto { transform: rotate(10deg) scale(var(--boleto-escala)); }
+.d-boleto-caja:hover { z-index: 3; }
+.d-boleto-caja:hover .d-boleto {
+  transform: rotate(0deg) translateY(-14px) scale(calc(var(--boleto-escala) * 1.03));
+  filter: drop-shadow(0 22px 30px rgba(0,0,0,.5));
+}
+@media (prefers-reduced-motion: reduce) {
+  .d-boleto-caja:hover .d-boleto { transform: rotate(0deg); }
+}
+
+.d-boleto .forma { position: absolute; left: -0.04px; top: -4.27px; width: 324.076px; height: 575.1px; }
+.d-boleto .retrato {
+  position: absolute; left: 24.3px; top: 24.75px;
+  width: 275.4px; height: 227.7px; border-radius: 18px; overflow: hidden;
+}
+.d-boleto .retrato img { width: 100%; height: 100%; object-fit: cover; }
+.d-boleto .retrato::after {
+  content: ""; position: absolute; inset: 0; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(2,5,0,0) 40%, rgba(2,5,0,.32) 100%);
+}
+
+.d-boleto .lugar {
+  position: absolute; left: 91.84px; top: 87.07px; width: 130.5px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--neutral-50); white-space: nowrap;
+  filter: drop-shadow(0 3.6px 1.8px rgba(0,0,0,.25));
+  z-index: 2;
+}
+/* el numero va en la manuscrita de campana y el ordinal en Poppins */
+.d-boleto .lugar .num { font-family: var(--mano); font-weight: 400; font-size: 90px; line-height: 90px; }
+.d-boleto .lugar .num sup {
+  font-family: var(--display); font-weight: 700;
+  font-size: 34px; line-height: 90px; vertical-align: baseline; letter-spacing: -.01em;
+}
+.d-boleto .lugar .palabra {
+  font-family: var(--display); font-weight: 900;
+  font-size: 45px; line-height: 42px; text-transform: uppercase;
+}
+
+.d-boleto .corte { position: absolute; left: 16.24px; top: 298.57px; width: 291.6px; }
+.d-boleto .lista {
+  position: absolute; left: 29.74px; top: 304px; width: 265.5px;
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+}
+.d-boleto .lista .encabezado { width: 100%; text-align: center; }
+.d-boleto .lista .titulo {
+  font-family: var(--texto); font-weight: 900; font-size: 19px; line-height: 24px;
+  text-transform: uppercase; color: var(--neutral-800);
+}
+.d-boleto .lista .sub {
+  font-family: var(--mano); font-size: 22px; line-height: 1.15;
+  letter-spacing: -1.2px; color: var(--verde);
+}
+.d-boleto .lista .fila { display: flex; align-items: center; gap: 7.2px; width: 100%; }
+.d-boleto .lista .fila img { width: 15.5px; height: 15.5px; flex: none; }
+.d-boleto .lista .fila p { font-size: 13.5px; line-height: 18px; color: var(--neutral-800); }
+
+/* --------------------------------------------------------------- pasos -- */
+
+.d-pasos { position: relative; isolation: isolate; padding: var(--e-24) 24px; }
+.d-pasos-foto { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.d-pasos > .d-pasos-foto, .d-pasos > .d-pasos-velo { left: 0; right: 0; }
+.d-pasos-velo {
+  position: absolute; inset: 0; z-index: -1;
+  /* la banda clara del centro se abre del 34 al 66% para que se vean las
+     caras de la foto; antes era un solo punto al 38% */
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.4) 100%),
+    linear-gradient(180deg, var(--negro) 0%, rgba(2,5,0,.76) 12%, rgba(2,5,0,.3) 24%,
+                    rgba(2,5,0,.06) 34%, rgba(2,5,0,.06) 66%, rgba(2,5,0,.3) 78%,
+                    rgba(2,5,0,.76) 89%, var(--negro) 100%);
+}
+.d-pasos-bloque { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; }
+
+.d-pasos-cabeza {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--e-4); text-align: center;
+}
+.d-pasos-cabeza .d-h2 { color: var(--neutral-50); width: 100%; }
+.d-pasos-cabeza .d-mano { text-shadow: -2px 2px 2px rgba(0,0,0,.4); white-space: nowrap; }
+
+/* Los seis pasos son un solo listado en orden 1-6, para que se lean igual
+   con lector de pantalla, con el teclado y en movil. El escalonado de
+   escritorio lo hace la reja, no el orden del documento: antes eran dos
+   columnas con 1-3-5 y 2-4-6, y al apilarse en movil se leia 1-3-5-2-4-6. */
+.d-pasos-cuerpo {
+  position: relative; min-height: 640px;
+  padding: var(--r-lg) var(--e-4);
+}
+.d-pasos-lista {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  column-gap: var(--e-16); row-gap: var(--e-4);
+  align-items: start;
+}
+/* la columna derecha baja un escalon */
+.d-pasos-lista .paso:nth-child(even) { margin-top: var(--e-24); }
+
+.d-divisor-v { position: absolute; left: 50%; top: 0; bottom: 0; width: 0; }
+.d-divisor-v img { position: absolute; left: -7.36px; top: 0; height: 100%; width: 14.7279px; max-width: none; }
+
+.paso {
+  display: flex; align-items: center; gap: var(--e-2);
+  list-style: none;
+  padding: var(--e-4); border-radius: var(--r-xl);
+  border: 1px solid transparent;
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1),
+              border-color .3s ease, background-color .3s ease;
+}
+.paso.visible { opacity: 1; transform: none; }
+.paso .num {
+  flex: none; width: 118px; text-align: center;
+  font-family: var(--display); font-weight: 500; font-size: 92px; line-height: normal;
+  color: var(--verde); opacity: .25;
+  transition: opacity .3s ease, text-shadow .3s ease;
+}
+.paso .txt { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: var(--e-2); }
+.paso .txt h3 { color: var(--neutral-50); }
+.paso .txt p { color: var(--neutral-50); }
+
+.paso.activo { border-color: var(--blanco); }
+.paso.activo .num { opacity: 1; }
+.paso:hover { background: rgba(249,249,251,.05); border-color: rgba(249,249,251,.28); }
+.paso:hover .num { opacity: 1; text-shadow: 0 0 28px rgba(26,163,73,.5); }
+.paso.activo:hover { border-color: var(--blanco); }
+
+/* ------------------------------------------------------------ registro -- */
+
+.d-registro { padding: var(--e-16) 24px; }
+/* el bloque entero es un boleto: cuerpo, perforacion y talon */
+.d-registro-bloque {
+  position: relative; max-width: var(--ancho); margin: 0 auto;
+  display: flex; align-items: stretch;
+  background: var(--boleto); border-radius: 26px;
+  box-shadow: 0 28px 64px -34px rgba(0,0,0,.85);
+  color: var(--negro);
+}
+/* una muesca de cada lado, enfrentadas, como en un pase de abordar */
+.d-registro-bloque::before, .d-registro-bloque::after {
+  content: ""; position: absolute; top: 42%; transform: translateY(-50%);
+  width: 34px; height: 34px;
+  border-radius: var(--r-full); background: var(--negro);
+}
+.d-registro-bloque::before { left: -17px; }
+.d-registro-bloque::after  { right: -17px; }
+
+.d-tarjeta {
+  flex: 1 0 0; min-width: 0;
+  padding: 48px;
+  display: flex; flex-direction: column; gap: var(--e-8);
+  color: var(--negro);
+}
+.d-tarjeta .cabeza { display: flex; flex-direction: column; }
+.d-tarjeta .cabeza-gracias { display: flex; align-items: center; gap: var(--e-4); }
+.d-tarjeta .cabeza-gracias .claxons { height: calc(30px * var(--claxons-escala)); width: auto; }
+.d-tarjeta .cabeza-gracias .viva { height: calc(30px * var(--viva-escala)); width: auto; }
+.d-tarjeta .cabeza-gracias .barra { flex: none; width: 2px; height: 28px; background: rgba(2,5,0,.3); }
+
+.d-tarjeta .cabeza .d-h2 { color: var(--negro); }
+
+/* riel */
+.riel { display: flex; align-items: center; justify-content: center; width: 100%; }
+.riel .nodo {
+  flex: none; width: 46px; height: 46px; border-radius: var(--r-full);
+  border: 1px solid var(--neutral-200);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--texto); font-weight: 500; font-size: 16px; line-height: 22px;
+  color: var(--neutral-200);
+  transition: border-color .3s ease, color .3s ease, background-color .3s ease, transform .3s cubic-bezier(.2,.7,.3,1);
+}
+.riel .nodo.activo { border-color: var(--verde); color: var(--verde); transform: scale(1.06); }
+.riel .nodo.hecho { border-color: var(--verde); background: var(--verde); color: #fff; }
+.riel .nodo.hecho::before { content: "✓"; }
+.riel .nodo.hecho span { display: none; }
+.riel .tramo { flex: 1 0 0; min-width: 0; height: 1px; background: var(--neutral-200); position: relative; }
+.riel .tramo span { position: absolute; inset: 0; width: 0; background: var(--verde); transition: width .45s cubic-bezier(.2,.7,.3,1); }
+.riel .tramo.hecho span { width: 100%; }
+
+.paso-form { display: none; border: 0; padding: 0; margin: 0; }
+.paso-form.activo { display: flex; flex-direction: column; gap: var(--e-8); animation: d-entra .38s cubic-bezier(.2,.7,.3,1); }
+@keyframes d-entra { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .paso-form.activo { animation: none; } }
+.paso-form h3 { color: #000; }
+
+.campos { display: flex; flex-direction: column; gap: var(--e-4); width: 100%; }
+.campos .fila { display: flex; gap: var(--e-4); width: 100%; }
+.campos .fila.primera { gap: 10px; }
+/* un campo suelto no tiene por que ocupar todo el renglon */
+.campos .fila.sola .campo { flex: 0 1 calc(50% - var(--e-2)); }
+
+.campo { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.campo > label { font-family: var(--texto); font-size: 16px; line-height: 24px; color: #000; display: flex; gap: 8px; }
+.campo > label .opc { opacity: .5; }
+
+.campo .caja {
+  height: 40px; display: flex; align-items: center; gap: 8px;
+  padding: var(--e-2) 20px; border: 1px solid var(--neutral-400); border-radius: 63px;
+  background: transparent;
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.campo .caja:hover { border-color: var(--neutral-800); }
+.campo .caja:focus-within { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(26,163,73,.16); }
+
+.campo input, .campo select {
+  flex: 1 0 0; min-width: 0;
+  font-family: var(--texto); font-size: 16px; line-height: normal; color: #000;
+  background: none; border: 0; padding: 0; outline: none;
+  appearance: none;
+}
+.campo input::placeholder { color: var(--neutral-300); }
+.campo select:invalid, .campo select.vacio { color: var(--neutral-300); }
+.campo option { color: #000; }
+.campo .caja img { width: 20px; height: 20px; flex: none; pointer-events: none; }
+.campo input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; position: absolute; right: 16px; width: 20px; height: 20px; cursor: pointer; }
+
+.campo .yerro {
+  display: none; font-family: var(--texto); font-size: 16px; line-height: 22px; color: var(--error);
+}
+.campo.mal .caja { border-color: var(--error); background: var(--error-suave); }
+.campo.mal .yerro { display: block; }
+.campo.bien .caja { border-color: var(--verde); }
+.campo .senal { display: none; }
+
+.pista { font-family: var(--texto); font-size: 16px; line-height: 22px; color: var(--neutral-400); }
+.plataforma {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--texto); font-size: 16px; line-height: 22px; color: var(--verde);
+  border: 1px solid currentColor; border-radius: var(--r-full); padding: 2px 10px;
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.plataforma.visible { opacity: 1; transform: none; }
+.plataforma img { width: 12px; height: 12px; }
+
+.casillas { display: flex; flex-direction: column; gap: var(--e-3); width: 100%; }
+.casilla {
+  display: grid; grid-template-columns: 20px 1fr; gap: var(--e-3); align-items: start;
+  font-family: var(--texto); font-size: 16px; line-height: 24px; color: var(--neutral-800);
+  cursor: pointer;
+}
+.casilla input { position: absolute; opacity: 0; width: 0; height: 0; }
+.casilla .marco {
+  width: 20px; height: 20px; margin-top: 2px; border-radius: 6px;
+  border: 1px solid var(--neutral-400); display: grid; place-items: center;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.casilla .marco img { width: 12px; height: 12px; opacity: 0; transition: opacity .18s ease; }
+.casilla input:checked ~ .marco { background: var(--verde); border-color: var(--verde); }
+.casilla input:checked ~ .marco img { opacity: 1; }
+.casilla input:focus-visible ~ .marco { outline: 2px solid var(--verde); outline-offset: 3px; }
+.casilla.mal .marco { border-color: var(--error); }
+.casilla a { color: var(--negro); text-underline-offset: 3px; }
+
+.resumen { display: flex; flex-direction: column; gap: var(--e-3); width: 100%; }
+.resumen div { display: grid; grid-template-columns: 150px 1fr; gap: var(--e-4); align-items: baseline; padding-bottom: var(--e-3); border-bottom: 1px solid var(--neutral-200); }
+.resumen dt { font-family: var(--texto); font-size: 16px; line-height: 22px; color: var(--neutral-400); text-transform: uppercase; letter-spacing: .08em; }
+.resumen dd { margin: 0; font-family: var(--texto); font-weight: 500; font-size: 16px; color: #000; word-break: break-word; }
+
+.acciones-form { display: flex; align-items: center; gap: var(--e-4); width: 100%; }
+.acciones-form .d-btn.linea { color: var(--negro); border-color: var(--neutral-400); margin-right: auto; }
+.acciones-form .d-btn.linea:hover { background: rgba(2,5,0,.06); }
+.acciones-form .fin { margin-left: auto; }
+
+/* --------------------------------------------------- pantalla de cierre -- */
+/* El boleto ya sellado: el texto a la izquierda y el sello encima. */
+
+.listo { display: none; align-items: center; gap: var(--e-8); }
+.listo.visible { display: flex; }
+.listo-texto { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: var(--e-3); }
+
+.listo-titulo {
+  font-family: var(--display); font-weight: 900;
+  font-size: 46px; line-height: 48px; letter-spacing: -.02em;
+  text-transform: uppercase; color: var(--negro);
+}
+/* el remate va completo en su renglon, nunca partido */
+.listo-titulo em { font-style: normal; color: var(--verde); white-space: nowrap; }
+
+.listo .recibido {
+  font-family: var(--texto); font-weight: 700; font-size: 20px; line-height: 28px;
+  color: var(--negro); margin-top: var(--e-2);
+}
+.listo p { color: var(--neutral-800); max-width: 46ch; }
+
+.listo .folio {
+  font-family: "DM Mono", monospace; font-size: 14px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--neutral-400);
+}
+.listo .folio strong { color: var(--verde); font-weight: 400; }
+
+/* el aviso del spam, con el sobre en su disco verde */
+.listo .spam {
+  display: flex; align-items: center; gap: var(--e-3);
+  margin-top: var(--e-3); padding-top: var(--e-4);
+  border-top: 1px dashed rgba(2,5,0,.2);
+  font-family: var(--texto); font-size: 16px; line-height: 22px;
+  color: var(--neutral-800); max-width: 34ch;
+}
+.listo .spam .sobre {
+  flex: none; width: 38px; height: 38px; border-radius: var(--r-full);
+  background: var(--verde); display: grid; place-items: center;
+}
+
+/* el sello cae de golpe, como estampado */
+.listo-sello {
+  flex: none; width: 250px; height: 250px;
+  /* el arte ya viene inclinado, aqui solo se estampa */
+  animation: d-sella .55s cubic-bezier(.3,1.5,.5,1) both;
+}
+@keyframes d-sella {
+  from { transform: rotate(-16deg) scale(1.9); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .listo-sello { animation: none; } }
+
+/* talon: mismo papel, separado por la perforacion */
+.d-revisa {
+  position: relative; flex: none; width: 320px; align-self: stretch;
+  display: flex; flex-direction: column; justify-content: center; gap: var(--e-4);
+  padding: 40px var(--e-8);
+  border-left: 2px dashed rgba(2,5,0,.24);
+}
+.d-revisa h3 { color: var(--negro); }
+.d-revisa .antes { display: flex; flex-direction: column; gap: var(--e-4); }
+
+/* talon de la pantalla de cierre: destino, avion y codigo */
+.d-revisa .despues {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--e-4);
+}
+.d-revisa .rotulo {
+  font-family: "DM Mono", monospace; font-size: 13px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--neutral-400); line-height: 20px;
+}
+.d-revisa .destino {
+  font-family: var(--display); font-weight: 900; font-size: 30px; line-height: 34px;
+  text-transform: uppercase; color: var(--negro);
+}
+/* el filete separa el destino del pie del talon */
+.d-revisa .despues .filete { width: 68px; height: 1px; background: rgba(2,5,0,.28); }
+.d-revisa .avioncito { width: 40px; height: 40px; filter: grayscale(1); opacity: .45; }
+/* codigo de barras dibujado con un degradado repetido */
+.d-revisa .codigo {
+  width: 100%; height: 54px; margin-top: auto;
+  background: repeating-linear-gradient(90deg,
+    var(--negro) 0 2px, transparent 2px 5px,
+    var(--negro) 5px 6px, transparent 6px 11px,
+    var(--negro) 11px 14px, transparent 14px 16px);
+  opacity: .8;
+}
+.d-revisa ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--e-4); }
+.d-revisa li { display: flex; align-items: center; gap: var(--e-2); }
+.d-revisa li img { width: 18px; height: 18px; flex: none; }
+.d-revisa li p { flex: 1 0 0; min-width: 0; color: var(--neutral-800); }
+
+/* --------------------------------------------------------------- bases -- */
+
+.d-bases { padding: var(--e-16) 24px; }
+.d-bases-bloque { max-width: var(--ancho); margin: 0 auto; display: flex; flex-direction: column; }
+.d-bases-cabeza { display: flex; flex-direction: column; gap: var(--e-4); padding: var(--r-lg) var(--e-4); }
+.d-bases-cabeza .d-h2 { color: var(--neutral-50); }
+.d-bases-cabeza p { color: var(--neutral-50); font-size: 20px; line-height: 30px; }
+
+.d-bases-cuerpo { padding: var(--r-lg) var(--e-4); }
+.d-bases-rejilla {
+  display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
+  grid-auto-rows: minmax(170px, auto);
+  border: 1px solid var(--primary-800); border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.d-dato {
+  border-right: 1px solid var(--primary-800);
+  border-bottom: 1px solid var(--primary-800);
+  padding: var(--e-4);
+  display: flex; flex-direction: column; gap: var(--e-2);
+  transition: background-color .25s ease, border-color .25s ease;
+}
+.d-dato:nth-child(3n) { border-right: 0; }
+.d-dato:nth-last-child(-n+3) { border-bottom: 0; }
+.d-dato:hover { background: rgba(69,81,48,.24); }
+.d-dato h3 {
+  font-family: var(--display); font-weight: 700; font-size: 20px; line-height: 28px;
+  color: var(--verde-claro);
+}
+.d-dato p { color: var(--neutral-50); }
+.d-dato strong { font-weight: 700; }
+
+.d-bases-docs { display: flex; flex-wrap: wrap; gap: var(--e-3); padding: 0 var(--e-4) var(--r-lg); }
+.d-doc {
+  display: inline-flex; align-items: center; gap: var(--e-2);
+  border: 1px solid var(--primary-800); border-radius: var(--r-xl);
+  padding: var(--e-3) var(--e-4); text-decoration: none;
+  font-family: var(--texto); font-size: 16px; color: var(--neutral-50);
+  transition: border-color .2s ease, background-color .2s ease, transform .2s cubic-bezier(.2,.7,.3,1);
+}
+.d-doc:hover { border-color: var(--verde); background: rgba(26,163,73,.1); transform: translateX(3px); }
+
+/* ----------------------------------------------------------------- pie -- */
+
+.d-pie { background: var(--pie-fondo); color: #0a1826; padding: 56px 0 32px; position: relative; overflow: hidden; }
+.d-pie::before {
+  content: ""; position: absolute; inset: 0;
+  color: #7f9d84;
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1.1px);
+  background-size: 10px 10px; opacity: .26;
+}
+.d-pie .env { position: relative; z-index: 2; max-width: var(--ancho); margin: 0 auto; padding: 0 var(--e-4); }
+.d-pie-alto {
+  display: flex; align-items: center; gap: var(--e-8) 56px; flex-wrap: wrap;
+  padding-bottom: 34px; border-bottom: 1px solid rgba(10,24,38,.2);
+}
+/* el lockup nunca se parte: los dos logos y el filete van en una linea */
+.d-pie-alto .marcas {
+  display: flex; align-items: center; gap: 20px;
+  flex: 0 1 auto; flex-wrap: nowrap; min-width: 0;
+}
+.d-pie-alto .claxons { height: calc(40px * var(--claxons-escala)); width: auto; flex: 0 1 auto; }
+.d-pie-alto .viva { height: calc(40px * var(--viva-escala)); width: auto; flex: 0 1 auto; }
+
+/* El lienzo de Viva trae el signo de registro arriba y aire abajo, asi que
+   la palabra queda 14% por debajo del centro de su caja. Al centrar las
+   cajas, Viva se veia hundido respecto a Claxons; esto lo sube. */
+.d-cabecera .marcas .viva,
+.d-marcas-hero .viva,
+.d-pie-alto .viva,
+.d-tarjeta .cabeza-gracias .viva { transform: translateY(-14%); }
+.d-pie-alto .barra { flex: none; width: 2px; height: 36px; background: rgba(10,24,38,.34); }
+.d-pie-alto .lema {
+  margin-left: auto; font-family: var(--mano); font-weight: 400;
+  font-size: 30px; line-height: 36px; letter-spacing: -.6px;
+  max-width: 33ch; color: var(--verde-oscuro);
+}
+@media (max-width: 900px) { .d-pie-alto .lema { margin-left: 0; } }
+
+/* dos columnas de enlaces y, a la derecha, la invitacion a registrarse */
+.d-pie-rejilla {
+  display: grid; align-items: start; padding: 34px 0;
+  grid-template-columns: minmax(150px, 1fr) minmax(170px, 1fr) minmax(260px, 340px);
+  gap: var(--e-8) 56px;
+}
+.d-pie-llamado {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--e-3);
+  padding-left: 56px; border-left: 1px dashed rgba(10,24,38,.28);
+}
+.d-pie-llamado .invita {
+  font-family: var(--display); font-weight: 900; font-size: 20px; line-height: 27px;
+  color: #0a1826; max-width: 18ch;
+}
+.d-pie-llamado .plazo {
+  font-family: "DM Mono", monospace; font-size: 13px; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(10,24,38,.55);
+}
+.d-pie-rejilla h4 { font-family: "DM Mono", monospace; font-size: 14px; letter-spacing: .18em; font-weight: 400; letter-spacing: .16em; text-transform: uppercase; color: rgba(10,24,38,.55); margin-bottom: var(--e-3); }
+.d-pie-rejilla ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.d-pie-rejilla a { text-decoration: none; font-size: 16px; color: rgba(10,24,38,.82); transition: color .18s ease; }
+.d-pie-rejilla a:hover { color: #0a1826; text-decoration: underline; text-underline-offset: 3px; }
+/* los svg de las redes traen la tinta clara del hero; sobre el papel del
+   pie se invierten a negro y se bajan de intensidad */
+.d-pie-social {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
+  list-style: none; margin: 0; padding: 0 0 22px;
+}
+.d-pie-social img { filter: brightness(0); opacity: .62; transition: opacity .18s ease; }
+.d-pie-social a:hover img { opacity: 1; }
+.d-pie-bajo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-top: 22px; border-top: 1px solid rgba(10,24,38,.16); font-family: "DM Mono", monospace; font-size: 16px; color: rgba(10,24,38,.55); }
+
+/* --------------------------------------------------------------- toast -- */
+
+.toast {
+  position: fixed; left: 50%; bottom: 28px; z-index: 120; transform: translate(-50%, 20px);
+  background: var(--neutral-50); color: var(--negro);
+  font-family: var(--display); font-weight: 500; font-size: 17px;
+  padding: 14px 24px; border-radius: var(--r-full);
+  box-shadow: 0 24px 50px -24px rgba(0,0,0,.7);
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease, transform .3s cubic-bezier(.2,.7,.3,1);
+}
+.toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+/* ------------------------------------------------------------ comparar -- */
+
+.comparar {
+  position: fixed; right: 16px; bottom: 16px; z-index: 90;
+  display: flex; gap: 3px; padding: 4px;
+  background: rgba(249,249,251,.12); backdrop-filter: blur(10px);
+  border: 1px solid rgba(249,249,251,.18); border-radius: var(--r-full);
+}
+.comparar a {
+  font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .1em;
+  text-transform: uppercase; text-decoration: none; white-space: nowrap;
+  color: rgba(249,249,251,.7); padding: 8px 14px; border-radius: var(--r-full);
+  transition: background-color .2s ease, color .2s ease;
+}
+.comparar a:hover { color: #fff; }
+.comparar a[aria-current="page"] { background: var(--verde); color: #fff; }
+
+/* ================================================================ ------ */
+/* Adaptación por debajo de los 1440 px del diseño                          */
+/* ================================================================ ------ */
+
+@media (max-width: 1320px) {
+  .d-hero { padding: var(--e-32) var(--e-16); }
+  /* la escala encoge la caja de maquetacion, no solo el dibujo, y el
+     texto cede ancho para que los boletos se le acerquen */
+  :root { --boleto-escala: .84; }
+  .d-cancion-txt { width: 500px; }
+}
+
+@media (max-width: 1220px) {
+  :root { --boleto-escala: .74; }
+  .d-cancion-txt { width: 452px; }
+}
+
+@media (max-width: 1120px) {
+  .d-h1 { font-size: 52px; line-height: 54px; }
+  .d-hashtag-hero { padding-left: 120px; }
+  .d-hashtag-hero span { font-size: 48px; line-height: 48px; letter-spacing: -2.4px; }
+  .d-bloque { flex-direction: column; gap: var(--e-8); }
+  .d-cancion-txt { width: 100%; }
+  :root { --boleto-escala: .86; }
+  .d-boletos { height: auto; justify-content: center; padding-top: 60px; }
+  .d-registro-bloque { flex-direction: column; }
+  .d-tarjeta { width: 100%; }
+  /* la perforacion pasa de vertical a horizontal */
+  .d-revisa {
+    width: 100%; flex: none;
+    border-left: 0; border-top: 2px dashed rgba(2,5,0,.24);
+  }
+}
+
+@media (max-width: 900px) {
+  .d-hero { padding: 84px var(--e-8) var(--e-16); min-height: 0; }
+  /* que el lockup no quede pegado a la orilla */
+  .d-hero-cont, .d-hero-social { padding-left: var(--e-3); padding-right: var(--e-3); }
+  .d-h1 { font-size: 40px; line-height: 44px; }
+  .d-marcas-hero { gap: 14px; margin-left: 0; }
+  .d-marcas-hero .claxons { height: calc(30px * var(--claxons-escala)); }
+  .d-marcas-hero .barra { height: 26px; }
+  .d-marcas-hero .viva { height: calc(30px * var(--viva-escala)); }
+  .d-hashtag-hero { padding-left: 0; height: auto; }
+  .d-hashtag-hero span { font-size: 38px; line-height: 40px; letter-spacing: -1.8px; }
+  .d-hero-texto { width: 100%; }
+  .d-divisor { width: 100%; }
+
+  .d-pasos-cuerpo { min-height: 0; }
+  .d-pasos-lista { grid-template-columns: 1fr; row-gap: var(--e-4); }
+  .d-pasos-lista .paso:nth-child(even) { margin-top: 0; }
+  .d-divisor-v { display: none; }
+  .paso .num { width: 88px; font-size: 64px; }
+  .d-pasos-cabeza .d-mano { white-space: normal; }
+
+  .d-boletos { flex-direction: column; align-items: center; gap: 24px; }
+  .d-boleto-caja { width: 340px; height: auto; }
+  .d-boleto-caja.uno { margin-right: 0; }
+  .d-boleto-caja.uno .d-boleto, .d-boleto-caja.dos .d-boleto { transform: none; }
+
+  .d-bases-rejilla { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .d-dato { border-right: 0; border-bottom: 1px solid var(--primary-800); }
+  .d-dato:last-child { border-bottom: 0; }
+  .d-seccion, .d-registro, .d-bases { padding-left: var(--e-4); padding-right: var(--e-4); }
+  .d-seccion { padding-top: var(--e-16); padding-bottom: var(--e-16); }
+  .d-tarjeta { padding: var(--e-4); }
+  .d-revisa { padding: var(--e-4); }
+  /* el pie pasa a dos columnas y el llamado se va abajo, completo */
+  .d-pie-rejilla { grid-template-columns: 1fr 1fr; }
+  .d-pie-llamado {
+    grid-column: 1 / -1; padding-left: 0; border-left: 0;
+    padding-top: var(--e-4); border-top: 1px dashed rgba(10,24,38,.28);
+  }
+  .campos .fila { flex-direction: column; }
+}
+
+@media (max-width: 560px) {
+  /* la cabecera no cabe con los logos a tamano completo */
+  .d-cabecera .fila { height: 64px; padding: 0 var(--e-4); gap: var(--e-2); }
+  .d-cabecera .marcas { gap: 8px; }
+  .d-cabecera .marcas .claxons { height: calc(19px * var(--claxons-escala)); }
+  .d-cabecera .marcas .viva { height: calc(19px * var(--viva-escala)); }
+  .d-cabecera .marcas .barra { height: 16px; }
+  .d-cabecera .d-btn { padding: 8px 16px; font-size: 14px; }
+  .d-cabecera .d-btn img, .d-cabecera .d-btn svg { width: 14px; height: 14px; }
+
+  .d-h2 { font-size: 30px; line-height: 36px; }
+  .d-mano { font-size: 24px; line-height: 26px; }
+  .d-pie-rejilla { grid-template-columns: 1fr; gap: var(--e-8); }
+  .d-pie-llamado { padding-left: 0; border-left: 0; padding-top: var(--e-4);
+    border-top: 1px dashed rgba(10,24,38,.28); }
+  .d-pie-alto .claxons { height: calc(30px * var(--claxons-escala)); }
+  .d-pie-alto .viva { height: calc(30px * var(--viva-escala)); }
+  .d-pie-alto .barra { height: 26px; }
+  .d-pie-alto .lema { font-size: 18px; line-height: 27px; }
+  .d-hero-acciones { flex-direction: column; align-items: stretch; }
+  .d-social { flex-wrap: wrap; gap: 14px 10px; }
+  .resumen div { grid-template-columns: 1fr; }
+  .acciones-form { flex-wrap: wrap; }
+  .acciones-form .fin { margin-left: 0; width: 100%; }
+}
+
+/* ------------------------------------------------------- aparición ---- */
+
+.por-aparecer { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1); }
+.a-la-vista { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .por-aparecer { opacity: 1; transform: none; transition: none; }
+}
+
+/* ------------------------------------------------------------ ocultos -- */
+/* Los bloques que se alternan (cabecera del formulario y del cierre, aviso
+   y talon) traen su propio display, asi que [hidden] necesita el ultimo
+   turno para ganarles. */
+[hidden] { display: none !important; }
+
+/* --------------------------------------------------------- pendientes -- */
+/* Dato que todavia no llega (fechas de Viva, razon social, correo). Se ve
+   a proposito, para que nadie lo pase por alto en revision. Antes de lanzar,
+   `grep -rn "pendiente" *.html` tiene que devolver cero resultados. */
+mark.pendiente {
+  background: rgba(255, 196, 0, .16); color: #ffd666;
+  padding: 0 .3em; border-radius: 4px; font-weight: 600;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}

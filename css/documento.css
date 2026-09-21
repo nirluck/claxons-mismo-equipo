@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Mismo Equipo · documentos legales
+   Capa sobre estilos.css. Estas paginas no compiten con la campana:
+   una columna de lectura, sin portada decorada, sin indice y sin remates.
+   Bases, terminos y privacidad comparten esta hoja.
+   ========================================================================== */
+
+:root {
+  --doc-texto:  rgba(249,249,251,.78);
+  --doc-tenue:  rgba(249,249,251,.5);
+  --doc-ancho:  760px;   /* columna de lectura, no el ancho del sitio */
+}
+
+.env { max-width: var(--doc-ancho); margin: 0 auto; padding: 0 var(--e-4); }
+
+/* ------------------------------------------------------------ portada -- */
+
+.doc-portada {
+  padding: 140px 24px var(--e-8);
+  border-bottom: 1px solid var(--primary-950);
+}
+
+.doc-volver {
+  display: inline-flex; align-items: center; gap: var(--e-2);
+  font-family: var(--texto); font-size: 15px; text-decoration: none;
+  color: var(--doc-tenue); transition: color .2s ease, gap .2s ease;
+}
+.doc-volver img { width: 14px; height: 14px; transform: rotate(180deg); }
+.doc-volver:hover { color: var(--verde); gap: 12px; }
+
+.doc-titulo {
+  margin-top: var(--e-4);
+  font-family: var(--display); font-weight: 900;
+  font-size: 40px; line-height: 48px; color: var(--neutral-50);
+  letter-spacing: -.01em;
+}
+
+/* la fecha que citan los apartados "Cambios a estos terminos / a este aviso" */
+.doc-fecha {
+  margin-top: var(--e-3);
+  font-family: var(--texto); font-size: 14px; line-height: 22px;
+  color: var(--doc-tenue);
+}
+
+/* -------------------------------------------------------------- cuerpo -- */
+
+.doc-cuerpo { padding-top: var(--e-8); padding-bottom: var(--e-16); }
+
+.doc-texto section { padding: var(--e-8) 0; }
+.doc-texto section + section { border-top: 1px solid var(--primary-950); }
+
+/* el numeral va en absoluto, no en una reja, por lo mismo que las listas */
+.doc-texto h2 {
+  position: relative; padding-left: 40px;
+  font-family: var(--display); font-weight: 700;
+  font-size: 22px; line-height: 30px; color: var(--neutral-50);
+  margin-bottom: var(--e-4); scroll-margin-top: 108px;
+}
+.doc-texto h2 .n {
+  position: absolute; left: 0; top: 0;
+  font-family: var(--texto); font-weight: 400; font-size: 15px; line-height: 30px;
+  color: var(--doc-tenue);
+}
+
+.doc-texto p {
+  font-family: var(--texto); font-size: 16px; line-height: 26px;
+  color: var(--doc-texto);
+}
+.doc-texto p + p { margin-top: var(--e-3); }
+.doc-texto strong { color: var(--neutral-50); font-weight: 700; }
+.doc-texto a {
+  color: var(--verde); text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-thickness: 1px; transition: color .18s ease;
+}
+.doc-texto a:hover { color: var(--verde-claro); }
+
+/* listas: vinetas discretas, sin iconos.
+   El renglon NO puede ser una reja: cada hijo del <li> seria una celda y un
+   <strong> a media frase se iba a la siguiente fila, en la columna de 22 px.
+   Con la vineta en absoluto, el texto del <li> fluye entero. */
+.doc-texto ul, .doc-texto ol { margin: var(--e-4) 0 0; padding: 0; list-style: none; }
+.doc-texto li {
+  position: relative; padding-left: 26px;
+  font-family: var(--texto); font-size: 16px; line-height: 26px; color: var(--doc-texto);
+}
+.doc-texto li::before {
+  position: absolute; left: 0; top: 0; width: 20px;
+  text-align: center; color: var(--doc-tenue);
+}
+.doc-texto li + li { margin-top: var(--e-2); }
+.doc-texto ul li::before { content: "·"; }
+.doc-texto ol { counter-reset: paso; }
+.doc-texto ol li { counter-increment: paso; }
+.doc-texto ol li::before { content: counter(paso) "."; font-size: 15px; }
+.doc-texto p + ul, .doc-texto p + ol { margin-top: var(--e-4); }
+.doc-texto ul + p, .doc-texto ol + p { margin-top: var(--e-4); }
+
+/* parrafo que conviene no pasar por alto */
+.doc-nota {
+  margin-top: var(--e-4); padding: var(--e-4);
+  border: 1px solid var(--primary-800); border-radius: var(--r-lg);
+}
+.doc-nota p { color: var(--neutral-50); }
+.doc-nota + p, .doc-tabla + p { margin-top: var(--e-4); }
+
+/* tabla de premios */
+.doc-tabla { overflow-x: auto; margin-top: var(--e-4); }
+.doc-tabla table {
+  width: 100%; min-width: 480px; border-collapse: collapse;
+  font-family: var(--texto); font-size: 16px; line-height: 24px;
+}
+.doc-tabla th, .doc-tabla td {
+  border-bottom: 1px solid var(--primary-950); padding: var(--e-3) var(--e-4) var(--e-3) 0;
+  text-align: left; vertical-align: top;
+}
+.doc-tabla th {
+  font-family: var(--texto); font-weight: 500; font-size: 14px;
+  color: var(--doc-tenue);
+}
+.doc-tabla td { color: var(--doc-texto); }
+.doc-tabla tbody tr td:first-child { color: var(--neutral-50); white-space: nowrap; }
+
+/* --------------------------------------------------------- adaptacion -- */
+
+@media (max-width: 900px) {
+  .doc-portada { padding: 110px var(--e-4) var(--e-8); }
+  .doc-titulo { font-size: 32px; line-height: 40px; }
+  .doc-texto h2 { padding-left: 32px; }
+}
+
+@media (max-width: 560px) {
+  .doc-titulo { font-size: 28px; line-height: 34px; }
+  .doc-texto h2 { font-size: 20px; line-height: 28px; }
+}

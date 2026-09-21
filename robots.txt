@@ -1,0 +1,5 @@
+# www.losclaxons.com · la landing de Mismo Equipo se indexa completa.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.losclaxons.com/sitemap.xml
